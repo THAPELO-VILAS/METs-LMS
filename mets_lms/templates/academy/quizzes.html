@@ -1,0 +1,17 @@
+{% extends 'aca
+my/base.html' %}
+
+{% block title %}Quizzes - METs Academy{% endblock %}
+
+{% block content %}
+<section>
+    <h2>Quizzes for {{ course.name }}</h2>
+    <ul>
+        {% for quiz in course.quizzes %}
+            <li>{{ quiz.title }} - <a href="{{ quiz.link }}">Take Quiz</a></li>
+        {% empty %}
+            <li>No quizzes available yet.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

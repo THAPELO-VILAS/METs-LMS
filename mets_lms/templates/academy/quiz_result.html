@@ -1,0 +1,35 @@
+{% extends 'academy/base.html' %}
+{% load dict_extras %} 
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-3">Quiz Results: {{ attempt.quiz.title }}</h2>
+    <p>Your score: <strong>{{ attempt.score }}%</strong></p>
+
+    {% for question in questions %}
+    <div class="card mb-3">
+        <div class="card-header">
+            Q{{ forloop.counter }}: {{ question.text }}
+        </div>
+
+        <ul class="list-group list-group-flush">
+            {% for choice in question.choice_set.all %}
+            <li class="list-group-item
+                {% if student_answers|dict_get:question.id == choice.id %}
+                    border border-primary
+                {% endif %}
+                {% if choice.is_correct %}
+                    bg-success text-white
+                {% endif %}
+            ">
+                {{ choice.text }}
+                {% if choice.is_correct %} (Correct Answer) {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+
+    <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3">Back to Dashboard</a>
+</div>
+{% endblock %}

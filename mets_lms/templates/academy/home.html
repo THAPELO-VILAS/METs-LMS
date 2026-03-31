@@ -1,0 +1,98 @@
+{% extends 'academy/base.html' %}
+{% load static %}
+
+{% block title %}Home - METs Academy{% endblock %}
+
+{% block content %}
+
+<!-- HERO / WELCOME -->
+<section class="welcome-header">
+    <div class="overlay">
+        <h1>Welcome to METs Academy</h1>
+        <p>Empowering Future Professionals in Data, Technology & Business</p>
+
+        <div class="auth-buttons">
+            <a href="{% url 'courses' %}" class="btn">Explore Courses</a>
+            {% if not user.is_authenticated %}
+                <a href="{% url 'register' %}" class="btn">Get Started</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section class="section light">
+    <h2>About Us</h2>
+    <p class="text-content">
+        METs Academy (Mind Enhancing Technologies) is a professional training institution
+        focused on equipping individuals with practical, job-ready skills in data analytics,
+        business intelligence, cybersecurity, and project management.  
+        Our programs are designed to bridge the gap between theory and real-world application.
+    </p>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="section">
+    <h2>Why Choose METs Academy?</h2>
+
+    <div class="course-cards">
+        <div class="course-card">🎯 Industry-Relevant Skills</div>
+        <div class="course-card">📊 Practical Projects</div>
+        <div class="course-card">📜 Certification</div>
+        <div class="course-card">🚀 Career-Focused Training</div>
+    </div>
+</section>
+
+<!-- COURSES -->
+<section class="section light">
+    <h2>Our Professional Courses</h2>
+
+    <div class="course-cards">
+
+        <div class="course-card">
+            <h3>📊 Data Analyst</h3>
+            <p>Learn data analysis, visualization, and reporting using modern tools.</p>
+        </div>
+
+        <div class="course-card">
+            <h3>📈 Business Intelligence</h3>
+            <p>Build dashboards and turn data into strategic insights.</p>
+        </div>
+
+        <div class="course-card">
+            <h3>🔐 Information Security</h3>
+            <p>Protect systems and understand cybersecurity fundamentals.</p>
+        </div>
+
+        <div class="course-card">
+            <h3>📋 Project Management</h3>
+            <p>Plan, manage, and deliver successful projects.</p>
+        </div>
+
+    </div>
+
+    <div class="auth-buttons">
+        <a href="{% url 'courses' %}" class="btn">View All Courses</a>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+    <h2>How It Works</h2>
+
+    <div class="course-cards">
+        <div class="course-card">1️⃣ Register an Account</div>
+        <div class="course-card">2️⃣ Enroll in a Course</div>
+        <div class="course-card">3️⃣ Complete Assignments & Projects</div>
+        <div class="course-card">4️⃣ Earn Your Certificate</div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section">
+    <h2>Contact Us</h2>
+    <p>📞 074 882 8215 / 071 119 4891</p>
+    <p>🌐 <a href="https://mingenhancingtechnologies.neocities.org" target="_blank">Visit Website</a></p>
+</section>
+
+{% endblock %}

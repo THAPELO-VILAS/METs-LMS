@@ -1,0 +1,40 @@
+
+{% extends 'academy/base.html' %}
+{% load dict_extras %}
+<h2>My Assignments</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Assignment</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Grade</th>
+    </tr>
+
+    {% for assignment in assignments %}
+    {% with submission=submission_dict|dict_get:assignment.id %}
+    <tr>
+        <td>{{ assignment.title }}</td>
+        <td>{{ assignment.due_date }}</td>
+
+        <td>
+            {% if submission %}
+                ✅ Submitted
+            {% elif assignment.due_date < now %}
+                ❌ Late
+            {% else %}
+                ⏳ Pending
+            {% endif %}
+        </td>
+
+        <td>
+            {% if submission and submission.grade %}
+                {{ submission.grade }}
+            {% else %}
+                -
+            {% endif %}
+        </td>
+    </tr>
+    {% endwith %}
+    {% endfor %}
+</table>

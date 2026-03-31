@@ -1,0 +1,118 @@
+{% extends 'academy/base.html' %}
+{% load static %}
+
+{% block title %}{{ course.name }} - METs Academy{% endblock %}
+
+{% block content %}
+<section class="course-detail">
+    <h1>{{ course.name }}</h1>
+    <p>{{ course.description }}</p>
+
+    <div class="course-meta">
+        <span>Level: {{ course.level }}</span>
+        <span>Duration: {{ course.duration }}</span>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress" style="width: {{ progress }}%;">
+            {{ progress }}%
+        </div>
+    </div>
+
+    <!-- ASSIGNMENTS -->
+    <!-- course_detail.html -->
+
+    <h2>Assignments</h2>
+    {% for a in assignments %}
+    <div class="assignment-card">
+        <p>{{ a.title }} - Due: {{ a.due_date|date:"M d, Y H:i" }}</p>
+
+        {% if a.file %}
+            <a href="{{ a.file.url }}" class="btn btn-primary">Download Assignment</a>
+        {% endif %}
+
+        {% if a.id in student_assignment_submissions %}
+            <p class="text-success">✅ Already submitted</p>
+        {% else %}
+            {% if a.is_open %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="assignment_id" value="{{ a.id }}">
+                    <input type="file" name="assignment_file" required>
+                    <button type="submit" class="btn btn-success">Upload</button>
+                </form>
+            {% else %}
+                <p class="text-muted">Submission closed.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% empty %}
+    <p>No assignments available yet.</p>
+    {% endfor %}
+
+    <h2>Projects</h2>
+    {% for p in projects %}
+    <div class="project-card">
+        <p>{{ p.title }} - Due: {{ p.due_date|date:"M d, Y H:i" }}</p>
+
+        {% if p.file %}
+            <a href="{{ p.file.url }}" class="btn btn-primary">Download Project</a>
+        {% endif %}
+
+        {% if p.id in student_project_submissions %}
+            <p class="text-success">✅ Already submitted</p>
+        {% else %}
+            {% if p.is_open %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="project_id" value="{{ p.id }}">
+                    <input type="file" name="project_file" required>
+                    <button type="submit" class="btn btn-success">Upload</button>
+                </form>
+            {% else %}
+                <p class="text-muted">Submission closed.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% empty %}
+    <p>No projects available yet.</p>
+    {% endfor %}
+    <!-- <h2>Quizzes</h2>
+
+    {% for quiz in course.quiz_set.all %}
+        <div class="course-card">
+            <h3>{{ quiz.title }}</h3>
+            <a href="{% url 'take_quiz' quiz.id %}" class="btn btn-primary">
+                Start Quiz
+            </a>
+        </div>
+    {% empty %}
+        <p>No quizzes available.</p>
+    {% endfor %} -->
+   <h2>Quizzes</h2>
+
+    {% for quiz in course.quiz_set.all %}
+        <div class="course-card">
+            <h3>{{ quiz.title }}</h3>
+
+            {% with attempts=quiz_attempts|default_if_none:0 %}
+                {% if attempts >= quiz.max_attempts %}
+                    <button class="btn btn-secondary" disabled>
+                        Max attempts reached
+                    </button>
+                    <p class="text-muted">You have reached the maximum number of attempts.</p>
+                {% else %}
+                    <a href="{% url 'take_quiz' quiz.id %}" class="btn btn-primary">
+                        Start Quiz
+                    </a>
+                    <p>{{ attempts }} / {{ quiz.max_attempts }} attempts used</p>
+                {% endif %}
+            {% endwith %}
+
+        </div>
+    {% empty %}
+        <p>No quizzes available.</p>
+    {% endfor %}
+
+</section>
+{% endblock %}

@@ -1,0 +1,37 @@
+<!-- quiz.html -->
+<h2>{{ quiz.title }}</h2>
+<div id="timer">Time left: <span id="time">{{ time_limit }}</span> minutes</div>
+
+<form method="POST">
+    {% csrf_token %}
+    {% for question in questions %}
+        <div class="question-block">
+            <p><strong>Q{{ forloop.counter }}: {{ question.text }}</strong></p>
+            {% for choice in question.choice_set.all %}
+                <label>
+                    <input type="radio" name="{{ question.id }}" value="{{ choice.id }}">
+                    {{ choice.text }}
+                </label><br>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <button type="submit">Submit Quiz</button>
+</form>
+
+<script>
+let timeLeft = {{ quiz.time_limit }} * 60; // time_limit in minutes
+const timerEl = document.getElementById('time');
+
+function updateTimer() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerEl.textContent = `${minutes}:${seconds.toString().padStart(2,'0')}`;
+    if (timeLeft <= 0) {
+        alert("Time's up! Quiz will be submitted automatically.");
+        document.querySelector('form').submit();
+    }
+    timeLeft--;
+}
+
+setInterval(updateTimer, 1000);
+</script>

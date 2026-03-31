@@ -1,0 +1,57 @@
+{% extends 'academy/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - METs Academy{% endblock %}
+
+{% block content %}
+<section>
+    <h2>My Dashboard</h2>
+
+    {% if enrolled_courses %}
+        <div class="course-cards">
+            {% for course in enrolled_courses %}
+                {% if course.id %}
+                    <a href="{% url 'course_detail' course.id %}" class="course-link">
+                        <div class="course-card">
+
+                            <h3 class="course-title">📘 {{ course.name }}</h3>
+
+                            <div class="course-meta">
+                                <span>{{ course.level }}</span>
+                                <span>{{ course.duration }}</span>
+                            </div>
+
+                            <p class="course-description">
+                                {{ course.description|truncatewords:20 }}
+                            </p>
+
+                            <div class="progress-bar">
+                                <div class="progress" style="width: {{ course.progress|default:0 }}%;">
+                                    {{ course.progress|default:0 }}%
+                                </div>
+                            </div>
+
+                            <div class="course-actions">
+                                <a href="{% url 'course_detail' course.id %}"
+                                   class="btn btn-primary"
+                                   onclick="event.stopPropagation();">
+                                    Continue Learning
+                                </a>
+
+                                <a href="{% url 'unenroll_course' course.id %}"
+                                   class="btn btn-danger"
+                                   onclick="event.stopPropagation();">
+                                    Unenroll
+                                </a>
+                            </div>
+
+                        </div>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You have not enrolled in any courses yet. Visit <a href="{% url 'home' %}">Home</a> to explore and enroll.</p>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'academy/base.html' %}
+
+{% block title %}Certificates - METs Academy{% endblock %}
+
+{% block content %}
+<section>
+    <h2>My Certificates</h2>
+
+    {% if certificates %}
+        <div class="course-cards">
+            {% for cert in certificates %}
+                <div class="course-card">
+                    <h3>{{ cert.course.name }} 📜</h3>
+                    <p>Issued on: {{ cert.issued_date|date:"F j, Y" }}</p>
+                    <a href="{{ cert.file.url }}" target="_blank" class="btn btn-primary">
+                        View Certificate
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You have no certificates yet. Complete a course to earn one.</p>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - METs Academy</title>
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header class="main-header">
+    <img src="{% static 'images/logo.png' %}"" alt="METs Academy Logo" class="logo">
+    <nav>
+        
+
+        
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'home'%}">Home</a>
+            <a href="{% url 'courses'%}">Courses</a>
+            <a href="{% url 'dashboard'%}">Dashboard</a>
+            <a href="{% url 'login'%}">Login</a>
+            <a href="{% url 'register'%}">Register</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="#">Register</a>
+        {% endif %}
+    </nav>
+</header>
+
+<main>
+    <section class="contact-section">
+        <h2>Contact Us</h2>
+        <p>📞 074 882 8215 / 071 119 4891</p>
+        <p>🌐 <a href="https://mingenhancingtechnologies.neocities.org" target="_blank">More Info</a></p>
+        <p>✉️ Email: info@metsacademy.co.za</p>
+    </section>
+</main>
+
+</body>
+</html>

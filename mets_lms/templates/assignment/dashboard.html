@@ -1,0 +1,35 @@
+<h2>{{ assignment.title }} - Submissions</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Student</th>
+        <th>File</th>
+        <th>Submitted At</th>
+        <th>Grade</th>
+        <th>Feedback</th>
+        <th>Action</th>
+    </tr>
+
+    {% for sub in submissions %}
+    <tr>
+        <td>{{ sub.student }}</td>
+        <td>
+            <a href="{{ sub.file.url }}" target="_blank">Download</a>
+        </td>
+        <td>{{ sub.submitted_at }}</td>
+
+        <form method="POST" action="{% url 'grade_submission' sub.id %}">
+            {% csrf_token %}
+            <td>
+                <input type="number" name="grade" value="{{ sub.grade }}">
+            </td>
+            <td>
+                <input type="text" name="feedback" value="{{ sub.feedback }}">
+            </td>
+            <td>
+                <button type="submit">Save</button>
+            </td>
+        </form>
+    </tr>
+    {% endfor %}
+</table>
